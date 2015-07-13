@@ -1,6 +1,6 @@
 <%@include file="/WEB-INF/tags/taglibs.jsp" %>
 
-<%--@elvariable id="book" type="com.ctp.springtemplate.models.Book"--%>
+<%--@elvariable id="book" type="com.example.springtemplate.models.Book"--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

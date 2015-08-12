@@ -58,6 +58,9 @@ public class DataSourceConfig {
                 .setName("samplebase")
                 .addScript("classpath:schema.sql")
                 .addScript("classpath:test-data.sql")
+                //Required by Spring batch
+                .addScript("org/springframework/batch/core/schema-drop-hsqldb.sql")
+                .addScript("org/springframework/batch/core/schema-hsqldb.sql")
                 .build();
     }
 

@@ -85,6 +85,12 @@
             <artifactId>spring-aop</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <!--Spring batch-->
+        <dependency>
+            <groupId>org.springframework.batch</groupId>
+            <artifactId>spring-batch-core</artifactId>
+            <version>3.0.5.RELEASE</version>
+        </dependency>
 
         <dependency>
             <groupId>org.aspectj</groupId>

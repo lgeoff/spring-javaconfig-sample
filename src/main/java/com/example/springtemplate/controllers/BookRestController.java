@@ -1,6 +1,6 @@
 package com.example.springtemplate.controllers;
 
-import com.example.springtemplate.exceptions.InvalidBookException;
+import com.example.springtemplate.exceptions.InvalidRestBookException;
 import com.example.springtemplate.models.Book;
 import com.example.springtemplate.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class BookRestController {
     @RequestMapping(value = "/", method = RequestMethod.POST,produces="application/json")
     public Book add(@RequestBody @Valid Book book, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            throw new InvalidBookException("Invalid book entry", bindingResult);
+            throw new InvalidRestBookException("Invalid book entry", bindingResult);
         }
          return bookService.addBook(book);
     }

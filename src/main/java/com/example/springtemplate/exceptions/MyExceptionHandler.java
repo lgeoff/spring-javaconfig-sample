@@ -8,19 +8,24 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by lgeoff on 03.07.2015.
  */
 @ControllerAdvice
 public class MyExceptionHandler extends ResponseEntityExceptionHandler {
-    @ExceptionHandler({ InvalidBookException.class })
-    protected ResponseEntity<Object> handleInvalidRequest(RuntimeException e, WebRequest request) {
-        InvalidBookException ire = (InvalidBookException) e;
+    @ExceptionHandler({ InvalidRestBookException.class })
+    protected ResponseEntity<Object> handleInvalidRestRequest(RuntimeException e, WebRequest request) {
+        InvalidRestBookException ire = (InvalidRestBookException) e;
         List<FieldErrorResource> fieldErrorResources = new ArrayList<FieldErrorResource>();
 
         List<FieldError> fieldErrors = ire.getErrors().getFieldErrors();
@@ -41,4 +46,16 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 
         return handleExceptionInternal(e, error, headers, HttpStatus.UNPROCESSABLE_ENTITY, request);
     }
+
+    @ExceptionHandler({ InvalidBookException.class })
+    protected String handleInvalidRequest(RuntimeException e, WebRequest webRequest,final HttpServletRequest request) {
+        InvalidBookException ire = (InvalidBookException) e;
+        FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(request);
+        outputFlashMap.put("errors",ire.getErrors().getFieldErrors().stream().map(i->i.getDefaultMessage()).collect(Collectors.toList()));
+        return "redirect:/books";
+    }
+
+
+
+
 }

@@ -2,8 +2,6 @@ package com.example.springtemplate.configuration.batch;
 
 import com.example.springtemplate.models.Book;
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobParameter;
-import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -22,10 +20,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -35,7 +30,7 @@ import java.util.logging.Logger;
 @EnableBatchProcessing
 public class BatchConfiguration {
 
-    Logger logger= Logger.getLogger(BatchConfiguration.class.getName());
+    Logger logger = Logger.getLogger(BatchConfiguration.class.getName());
     @Autowired
     private JobBuilderFactory jobs;
 
@@ -49,11 +44,9 @@ public class BatchConfiguration {
     ) {
         return jobs.get("csvJob").incrementer(new RunIdIncrementer())
                 .flow(s1)
-
                 .end()
                 .build();
     }
-
 
     @Bean(name = "step1")
     public Step step1(StepBuilderFactory stepBuilderFactory,
@@ -86,12 +79,12 @@ public class BatchConfiguration {
         return writer;
     }
 
-    @Bean(name="bookProcessor")
-    public ItemProcessor<Book,String> processor(){
+    @Bean(name = "bookProcessor")
+    public ItemProcessor<Book, String> processor() {
         return new ItemProcessor<Book, String>() {
             @Override
             public String process(Book book) throws Exception {
-                logger.info("Returning "+book.toString());
+                logger.info("Returning " + book.toString());
                 return book.toString();
             }
         };

@@ -1,24 +1,23 @@
 package com.example.springtemplate.controllers;
 
+import com.example.springtemplate.exceptions.InvalidBookException;
+import com.example.springtemplate.exceptions.InvalidRestBookException;
 import com.example.springtemplate.models.Book;
 import com.example.springtemplate.services.BookService;
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
-import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
-import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.File;
-import java.nio.file.FileSystem;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -53,7 +52,10 @@ public class BookController {
     }
 
     @RequestMapping(value = "/books/add", method = RequestMethod.POST)
-    public String createBookFromWeb(@ModelAttribute Book book) {
+    public String createBookFromWeb(@ModelAttribute @Valid Book book, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new InvalidBookException("Invalid book entry", bindingResult);
+        }
         this.createBook(book);
         return "redirect:/books";
 

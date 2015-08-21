@@ -32,7 +32,7 @@
                 <tr>
                     <th scope="row">
                         <a href="<c:url value="/books/remove/${book.id}"/> ">
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"> ${book.id}</span>
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"> ${book.id}</span>
                         </a>
                     </th>
                     <td>${book.title}</td>
@@ -41,17 +41,30 @@
             </c:forEach>
             <form action="<c:url value="/books/add"/> " method="post">
                 <tr>
-                    <th scope="row"> <button class="btn" type="submit">Add New</button></th>
-                    <td>  <input type="text" name="title" id="title" class="form-control" placeholder="Title" required="" autofocus=""></td>
-                    <td><input type="text" name="description" id="description" class="form-control" placeholder="Description" required="" autofocus=""></td>
+                    <th scope="row">
+                        <button class="btn" type="submit">Add New</button>
+                    </th>
+                    <td><input type="text" name="title" id="title" class="form-control" placeholder="Title" required=""
+                               autofocus=""></td>
+                    <td><input type="text" name="description" id="description" class="form-control"
+                               placeholder="Description" required="" autofocus=""></td>
                 </tr>
                 <input type="hidden"
-                       name="${_csrf.parameterName}" value="${_csrf.token}" />
+                       name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
             </tbody>
         </table>
 
 
+    </div>
+
+    <div class="row">
+        <ul>
+            <c:forEach items="${errors}" var="error">
+                <li> ${error} </li>
+
+            </c:forEach>
+        </ul>
     </div>
 </div>
 </body>
